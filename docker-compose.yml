@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+  postgresql:
+    image: postgres:13.3-alpine
+    environment:
+      POSTGRES_DB: hibernate
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: postgres
+    ports:
+      - "5433:5432"
