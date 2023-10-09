@@ -1,9 +1,6 @@
 package org.example.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,11 +16,15 @@ import java.time.LocalDate;
 @Table(name = "Users", schema = "public")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(unique = true)
     private String username;
-    private String firstname;
-    private String lastname;
-    @Column(name = "birth_date")
-    private LocalDate birthDate;
-    private Integer age;
+    @Embedded
+    @AttributeOverride(name = "birthDate", column = @Column(name = "birth_date")) // Repeatable - может быть несколько
+    private PersonalInfo personalInfo;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "company_id")
+    private Company company;
 
 }
